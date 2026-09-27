@@ -3,6 +3,6 @@ Group project repository
 
 MEMBERS
 -------
-Luis Medina-Macias
-Raina Stofft
+Luis Medina-Macias, 
+Raina Stofft, 
 Joseph Villano
