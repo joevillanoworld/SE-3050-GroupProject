@@ -45,5 +45,7 @@ Deliverables
 * A working web application implementing the four features
 * A written report covering design decisions
 
+**SCREENSHOT OF ENTITY RELATIONSHIP DIAGRAM**
+<img width="1060" height="646" alt="Screenshot_2026-10-04_at_10 41 38_AM" src="https://github.com/user-attachments/assets/d0c959d9-c19e-40ca-802f-1f7a22675684" />
 **SCREENSHOT OF PROJECT BOARD**
 <img width="1431" height="715" alt="project board" src="https://github.com/user-attachments/assets/b30404c4-6101-4ca4-9165-323101eb2d69" />
