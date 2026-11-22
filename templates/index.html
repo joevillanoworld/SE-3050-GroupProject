@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Final Submission</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<body>
+<header>
+   <!--header-->
+   <h1>Farmers Market</h1>
+</header>
+
+
+<div id="search">
+   <!--search bar-->
+   <form action="/" method="GET">
+       <label for="query">Search products</label>
+       <input id="query" name="q" type="search"
+              placeholder="Search Farmers Market"
+              value="{{ search_query }}">
+
+
+       <button type="submit">Search</button>
+   </form>
+
+
+   {% if search_query %}
+   <div id="search-results">
+       <h2>Search Results for "{{ search_query }}"</h2>
+
+
+       {% for product in search_results %}
+       <div class="product">
+           <h3>{{ product.name }}</h3>
+           <p>Category: {{ product.category }}</p>
+           <p>Market: {{ product.market_name }}</p>
+           <p>Address: {{ product.address }}</p>
+           <p>Price: ${{ product.price }}</p>
+           <p>Available Quantity: {{ product.available_quantity }}</p>
+       </div>
+       {% else %}
+       <p>No matching products found.</p>
+       {% endfor %}
+   </div>
+   {% endif %}
+
+
+</div>
+
+
+
+
+<div id="order">
+   <h2>Place a Preorder</h2>
+
+
+   <form action="/" method="POST">
+
+
+       <label for="customer_name">Name</label>
+       <input
+               id="customer_name"
+               name="customer_name"
+               type="text"
+               placeholder="Enter your name"
+               required
+       >
+
+
+       <label for="customer_email">Email</label>
+       <input
+               id="customer_email"
+               name="customer_email"
+               type="email"
+               placeholder="Enter your email"
+               required
+       >
+
+
+       <label for="market">Select Market</label>
+       <select id="market" name="market_id" required>
+           <option value="">Choose a market</option>
+
+
+           {% for market in markets %}
+           <option value="{{ market.market_id }}">
+               {{ market.name }}
+           </option>
+           {% endfor %}
+       </select>
+
+
+       <label for="product">Select Product</label>
+       <select id="product" name="product_id" required>
+           <option value="">Choose a product</option>
+
+
+           {% for product in products %}
+           <option value="{{ product.product_id }}">
+               {{ product.name }}
+           </option>
+           {% endfor %}
+       </select>
+
+
+       <label for="quantity">Quantity</label>
+       <input
+               id="quantity"
+               name="quantity"
+               type="number"
+               min="1"
+               required
+       >
+
+
+       <button type="submit">Place Preorder</button>
+
+
+
+
+   </form>
+
+
+   {% if message %}
+   <script>
+       window.addEventListener('load', function() {
+           alert({{ message | tojson }});
+       });
+   </script>
+   {% endif %}
+</div>
+
+
+
+
+
+
+
+
+<div id="markets">
+   <h2>Farmers Markets</h2>
+
+
+   {% for market in markets %}
+   <div class="market">
+
+
+       <h2>{{ market.name }}</h2>
+       <p>{{ market.address }}</p>
+
+
+       <h3>Vendors</h3>
+
+
+       <ul>
+           {% for vendor in market.vendors %}
+           <li>{{ vendor.vendor_name }}</li>
+           {% else %}
+           <li>No vendors listed</li>
+           {% endfor %}
+       </ul>
+
+
+   </div>
+   {% else %}
+   <p>No farmers markets found.</p>
+   {% endfor %}
+</div>
+
+
+
+
+</body>
+</html>
