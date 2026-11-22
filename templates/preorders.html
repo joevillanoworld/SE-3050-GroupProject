@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Preorders</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<header>
+   <h1>Farmers Market</h1>
+</header>
+
+<nav>
+   <a href="{{ url_for('index') }}">Back to Home</a>
+</nav>
+
+<div id="preorders">
+   <h2>Preorders</h2>
+
+   <form action="{{ url_for('view_preorders') }}" method="GET">
+       <label for="email">Look up by email</label>
+       <input id="email" name="email" type="email"
+              placeholder="Leave blank to see all preorders"
+              value="{{ email }}">
+       <button type="submit">Search</button>
+       {% if email %}
+       <a href="{{ url_for('view_preorders') }}">Show all</a>
+       {% endif %}
+   </form>
+
+   {% for order in preorders %}
+   <div class="preorder">
+       <h3>Preorder #{{ order.preorder_id }}</h3>
+       <p>Customer: {{ order.customer_name }} ({{ order.customer_email }})</p>
+       <p>Market: {{ order.market_name }}</p>
+       <p>Status: {{ order.status }}</p>
+       <p>Placed: {{ order.placed_at.strftime('%b %d, %Y %I:%M %p') }}</p>
+
+       <table>
+           <thead>
+               <tr>
+                   <th>Product</th>
+                   <th>Quantity</th>
+                   <th>Unit Price</th>
+                   <th>Subtotal</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for item in order['items'] %}
+               <tr>
+                   <td>{{ item.product_name }}</td>
+                   <td>{{ item.quantity }}</td>
+                   <td>${{ '%.2f' | format(item.unit_price) }}</td>
+                   <td>${{ '%.2f' | format(item.line_total) }}</td>
+               </tr>
+               {% endfor %}
+           </tbody>
+           <tfoot>
+               <tr>
+                   <td colspan="3"><strong>Total</strong></td>
+                   <td><strong>${{ '%.2f' | format(order.total) }}</strong></td>
+               </tr>
+           </tfoot>
+       </table>
+   </div>
+   {% else %}
+   <p>No preorders found.</p>
+   {% endfor %}
+</div>
+
+</body>
+</html>

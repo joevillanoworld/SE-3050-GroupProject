@@ -213,5 +213,67 @@ def index():
 
 
 
+@app.route('/preorders')
+def view_preorders():
+   email = request.args.get('email', '').strip()
+
+   connection = get_db_connection()
+   cursor = connection.cursor(dictionary=True)
+
+   where = ""
+   params = ()
+   if email:
+       where = "WHERE c.email = %s"
+       params = (email,)
+
+   cursor.execute(f"""
+       SELECT
+           po.preorder_id,
+           po.status,
+           po.placed_at,
+           c.name AS customer_name,
+           c.email AS customer_email,
+           m.name AS market_name,
+           p.name AS product_name,
+           pi.quantity,
+           pi.unit_price,
+           pi.quantity * pi.unit_price AS line_total
+       FROM preorder AS po
+       JOIN customer AS c ON c.customer_id = po.customer_id
+       JOIN market AS m ON m.market_id = po.market_id
+       JOIN preorder_item AS pi ON pi.preorder_id = po.preorder_id
+       JOIN product AS p ON p.product_id = pi.product_id
+       {where}
+       ORDER BY po.placed_at DESC, po.preorder_id DESC, p.name;
+   """, params)
+
+   rows = cursor.fetchall()
+
+   cursor.close()
+   connection.close()
+
+   # Group the flat rows into one entry per preorder, each with its items
+   preorders = {}
+   for row in rows:
+       order = preorders.setdefault(row['preorder_id'], {
+           'preorder_id': row['preorder_id'],
+           'status': row['status'],
+           'placed_at': row['placed_at'],
+           'customer_name': row['customer_name'],
+           'customer_email': row['customer_email'],
+           'market_name': row['market_name'],
+           'items': [],
+           'total': 0,
+       })
+       order['items'].append(row)
+       order['total'] += row['line_total']
+
+   return render_template('preorders.html',
+                          preorders=list(preorders.values()),
+                          email=email)
+
+
+
+
 if __name__ == '__main__':
    app.run(debug=True)
