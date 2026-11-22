@@ -13,13 +13,20 @@ https://drive.google.com/file/d/10XWxs6CqdhrjJyxHpy5D00-0J8C_c-Se/view?usp=shari
 **Instructions for running**
 1. Clone this repository
 2. Inside this directory, run
-    python3 -m venv .venv
-    source .venv/bin/activate
-3. Use Python's package manager to install dependencies listed in 'requirements.txt' using
+
+   python3 -m venv .venv
+
+   source .venv/bin/activate
+   
+4. Use Python's package manager to install dependencies listed in 'requirements.txt' using
+
     pip install -r requirements.txt
-4. Run the command
+   
+6. Run the command
+
     flask run
-5. Paste the IP address from the output into your web browser
+
+8. Paste the IP address from the output into your web browser
 
 **Farmers Market Directory: Project Proposal**
 
