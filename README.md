@@ -7,6 +7,9 @@ Luis Medina-Macias,
 Raina Stofft, 
 Joseph Villano
 
+**Link to video demonstration**
+https://drive.google.com/file/d/10XWxs6CqdhrjJyxHpy5D00-0J8C_c-Se/view?usp=sharing
+
 **Farmers Market Directory: Project Proposal**
 
 Overview:
